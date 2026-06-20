@@ -1,283 +1,147 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masala Rate Calculator Pro</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Segoe UI, Arial, sans-serif
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masala Rate Calculator</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+body{margin:0;background:#f4f7fb;padding:12px;color:#1e293b}
+.container{max-width:1200px;margin:auto;background:#fff;padding:20px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+h1{text-align:center;margin:0 0 20px;font-size:2.2rem}
+.top{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+input[type=text],input[type=number]{width:100%;padding:12px;border:1px solid #dbe3ee;border-radius:12px}
+button{border:none;border-radius:12px;padding:12px 16px;color:#fff;cursor:pointer}
+.add-btn{background:#2563eb}
+.info-btn{background:#64748b}
+.delete-btn{background:#ef4444}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{padding:12px;border-bottom:1px solid #e5e7eb;text-align:center}
+th{background:#f8fafc}
+.profit,.sell{display:inline-flex;align-items:center;justify-content:center;min-width:90px;height:40px;border-radius:10px;font-weight:600}
+.profit{background:#ecfdf5;color:#15803d}
+.sell{background:#eff6ff;color:#1d4ed8}
+.summary{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.card{flex:1;min-width:220px;border:1px solid #e5e7eb;border-radius:14px;padding:16px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5)}
+.modal-box{background:#fff;width:340px;max-width:95%;margin:60px auto;padding:20px;border-radius:16px}
 
-        body {
-            background: #f8fafc;
-            padding: 24px;
-            color: #334155
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            background: #fff;
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .08)
-        }
-
-        h1 {
-            margin-bottom: 6px
-        }
-
-        .subtitle {
-            color: #64748b;
-            margin-bottom: 20px
-        }
-
-        .settings-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            margin: 12px 0
-        }
-
-        input[type=text],
-        input[type=number] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px
-        }
-
-        button {
-            border: none;
-            background: #2563eb;
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer
-        }
-
-        button:hover {
-            opacity: .9
-        }
-
-        .toolbar {
-            display: flex;
-            gap: 10px;
-            align-items: end;
-            flex-wrap: wrap
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: separate;
-            border-spacing: 0
-        }
-
-        th {
-            background: #f8fafc;
-            color: #334155;
-            padding: 14px;
-            border-bottom: 2px solid #e2e8f0
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: center
-        }
-
-        .profit-value {
-            display: inline-block;
-            background: #ecfdf5;
-            color: #15803d;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 600
-        }
-
-        .selling-price {
-            display: inline-block;
-            background: #eff6ff;
-            color: #1d4ed8;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 600
-        }
-
-        .delete-btn {
-            background: #dc2626
-        }
-
-        .summary {
-            display: flex;
-            gap: 16px;
-            margin-top: 20px;
-            flex-wrap: wrap
-        }
-
-        .summary-card {
-            flex: 1;
-            min-width: 220px;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 12px
-        }
-
-        .summary-card h2 {
-            margin-top: 8px
-        }
-
-        .dark {
-            background: #0f172a;
-            color: #e2e8f0
-        }
-
-        .dark .container,
-        .dark .summary-card {
-            background: #1e293b
-        }
-
-        .dark .settings-card,
-        .dark th {
-            background: #334155;
-            color: #fff
-        }
-    </style>
+@media(max-width:768px){
+ h1{font-size:2rem}
+ .top,.summary{flex-direction:column}
+ table,thead,tbody,tr,td{display:block;width:100%}
+ thead{display:none}
+ tbody{display:flex;flex-direction:column;gap:14px}
+ tr{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+ td{border:none;padding:8px 0;text-align:left}
+ td::before{display:block;font-weight:700;color:#475569;margin-bottom:6px}
+ td:nth-child(1)::before{content:"Item"}
+ td:nth-child(2)::before{content:"Purchase Rate"}
+ td:nth-child(3)::before{content:"Profit %"}
+ td:nth-child(4)::before{content:"Profit"}
+ td:nth-child(5)::before{content:"Selling"}
+ td:nth-child(6)::before{content:"Details"}
+ td:nth-child(7)::before{content:"Actions"}
+ .action-wrap{display:flex;gap:10px}
+ .action-wrap button{flex:1}
+}
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Masala Rate Calculator Pro</h1>
-        <p class="subtitle">Wholesale to Supplier Selling Price Calculator</p>
+<div class="container">
+<h1>Masala Rate Calculator</h1>
 
-        <div class="settings-card">
-            <div class="radio-group">
-                <label><input type="radio" name="mode" value="global" checked> Global Profit %</label>
-                <label><input type="radio" name="mode" value="individual"> Individual Profit %</label>
-            </div>
+<div class="top">
+<div>
+<label><input type="radio" name="mode" value="global" checked> Global</label>
+<label><input type="radio" name="mode" value="individual"> Individual</label>
+</div>
+<div>
+<label>Global Profit %</label>
+<input id="globalProfit" type="number" value="20">
+</div>
+<div><button class="add-btn" onclick="addRow()">+ Add Item</button></div>
+</div>
 
-            <div class="toolbar">
-                <div>
-                    <label>Global Profit %</label>
-                    <input type="number" id="globalProfit" value="20">
-                </div>
-                <button onclick="addRow()">+ Add Item</button>
-                <button onclick="toggleTheme()">🌙 Theme</button>
-            </div>
-        </div>
+<table>
+<thead><tr><th>Item</th><th>Purchase</th><th>Profit %</th><th>Profit</th><th>Selling</th><th>Details</th><th>Actions</th></tr></thead>
+<tbody id="tableBody"></tbody>
+</table>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Purchase Rate</th>
-                    <th>Profit %</th>
-                    <th>Profit ₹</th>
-                    <th>Selling ₹</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+<div class="summary">
+<div class="card"><h3>Total Items</h3><h2 id="totalItems">0</h2></div>
+<div class="card"><h3>Average Profit %</h3><h2 id="avgProfit">0%</h2></div>
+<div class="card"><h3>Total Profit</h3><h2 id="totalProfit">₹0</h2></div>
+</div>
+</div>
 
-        <div class="summary">
-            <div class="summary-card">
-                <h3>Total Items</h3>
-                <h2 id="totalItems">0</h2>
-            </div>
-            <div class="summary-card">
-                <h3>Average Profit %</h3>
-                <h2 id="avgProfit">0%</h2>
-            </div>
-            <div class="summary-card">
-                <h3>Total Expected Profit</h3>
-                <h2 id="totalProfit">₹0</h2>
-            </div>
-        </div>
-    </div>
+<div class="modal" id="modal">
+<div class="modal-box">
+<h3 id="mTitle"></h3><br>
+<div id="mBody"></div><br>
+<button class="add-btn" onclick="modal.style.display='none'">Close</button>
+</div>
+</div>
 
-    <script>
-        const tableBody = document.getElementById('tableBody');
+<script>
+const tbody=document.getElementById('tableBody');
 
-        function saveData() {
-            localStorage.setItem('data', tableBody.innerHTML);
-        }
+function addRow(name='',rate=''){
+ const tr=document.createElement('tr');
+ tr.innerHTML=`
+ <td><input type="text" value="${name}"></td>
+ <td><input class="purchase" type="number" value="${rate}"></td>
+ <td><input class="profitPercent" type="number" value="20"></td>
+ <td><span class="profit">₹0.00</span></td>
+ <td><span class="sell">₹0.00</span></td>
+ <td><button class="info-btn" onclick="showInfo(this)">Details</button></td>
+ <td><div class="action-wrap"><button class="delete-btn" onclick="this.closest('tr').remove();calc()">Delete</button></div></td>`;
+ tbody.appendChild(tr);
+ tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc));
+ calc();
+}
 
-        function addRow(name = '', rate = '') {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-<td><input type="text" value="${name}" placeholder="Item"></td>
-<td><input type="number" class="purchase-rate" value="${rate}"></td>
-<td><input type="number" class="item-profit" value="20"></td>
-<td><span class="profit-value">₹0</span></td>
-<td><span class="selling-price">₹0</span></td>
-<td><button class="delete-btn">Delete</button></td>`;
+function showInfo(btn){
+ const tr=btn.closest('tr');
+ const item=tr.querySelector('input[type=text]').value||'Item';
+ const sell=parseFloat(tr.querySelector('.sell').textContent.replace('₹',''))||0;
+ mTitle.textContent=item;
+ mBody.innerHTML=`
+ <p>1 Kg : ₹${sell.toFixed(2)}</p>
+ <p>500 gm : ₹${(sell*0.5).toFixed(2)}</p>
+ <p>250 gm : ₹${(sell*0.25).toFixed(2)}</p>
+ <p>200 gm : ₹${(sell*0.20).toFixed(2)}</p>
+ <p>100 gm : ₹${(sell*0.10).toFixed(2)}</p>`;
+ modal.style.display='block';
+}
 
-            tableBody.appendChild(row);
+function calc(){
+ const mode=document.querySelector('input[name=mode]:checked').value;
+ const gp=parseFloat(globalProfit.value)||0;
+ let c=0,tp=0,pp=0;
 
-            row.querySelectorAll('input').forEach(i => i.addEventListener('input', calculateAll));
-            row.querySelector('.delete-btn').addEventListener('click', () => { row.remove(); calculateAll(); });
-            calculateAll();
-        }
+ document.querySelectorAll('#tableBody tr').forEach(tr=>{
+   const purchase=parseFloat(tr.querySelector('.purchase').value)||0;
+   const pInput=tr.querySelector('.profitPercent');
+   const p=mode==='global'?gp:(parseFloat(pInput.value)||0);
+   pInput.disabled=(mode==='global');
+   if(mode==='global') pInput.value=gp;
+   const profit=purchase*p/100;
+   const sell=purchase+profit;
+   tr.querySelector('.profit').textContent='₹'+profit.toFixed(2);
+   tr.querySelector('.sell').textContent='₹'+sell.toFixed(2);
+   c++; tp+=profit; pp+=p;
+ });
 
-        function calculateAll() {
-            const mode = document.querySelector('input[name="mode"]:checked').value;
-            const globalProfit = parseFloat(document.getElementById('globalProfit').value) || 0;
+ totalItems.textContent=c;
+ avgProfit.textContent=c?(pp/c).toFixed(1)+'%':'0%';
+ totalProfit.textContent='₹'+tp.toFixed(2);
+}
 
-            let count = 0, totalPercent = 0, totalProfitAmt = 0;
+globalProfit.oninput=calc;
+document.querySelectorAll('input[name=mode]').forEach(x=>x.onchange=calc);
 
-            document.querySelectorAll('#tableBody tr').forEach(row => {
-                const purchase = parseFloat(row.querySelector('.purchase-rate').value) || 0;
-                const itemProfitInput = row.querySelector('.item-profit');
-
-                const profitPercent = mode === 'global' ? globalProfit : (parseFloat(itemProfitInput.value) || 0);
-
-                itemProfitInput.disabled = (mode === 'global');
-                itemProfitInput.value = profitPercent;
-
-                const profit = purchase * profitPercent / 100;
-                const selling = purchase + profit;
-
-                row.querySelector('.profit-value').textContent = '₹' + profit.toFixed(2);
-                row.querySelector('.selling-price').textContent = '₹' + selling.toFixed(2);
-
-                count++;
-                totalPercent += profitPercent;
-                totalProfitAmt += profit;
-            });
-
-            document.getElementById('totalItems').textContent = count;
-            document.getElementById('avgProfit').textContent = count ? (totalPercent / count).toFixed(1) + '%' : '0%';
-            document.getElementById('totalProfit').textContent = '₹' + totalProfitAmt.toFixed(2);
-
-            saveData();
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
-        }
-
-        document.getElementById('globalProfit').addEventListener('input', calculateAll);
-        document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener('change', calculateAll));
-
-        ['Kanda Lasun Masala', 'Kala Masala', 'Malvani Masala', 'Kashmiri Mirchi Powder', 'Tikhat Mirchi Powder', 'Bedgi Mirchi Powder', 'Halad Powder']
-            .forEach(x => addRow(x, ''));
-    </script>
+['Kanda Lasun Masala','Kala Masala','Malvani Masala','Kashmiri Mirchi Powder','Tikhat Mirchi Powder','Bedgi Mirchi Powder','Halad Powder'].forEach(x=>addRow(x,''));
+</script>
 </body>
-
 </html>
