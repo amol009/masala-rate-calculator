@@ -1,8 +1,0 @@
-{
-"name":"Rate Calculator",
-"short_name":"Rates",
-"start_url":"./",
-"display":"standalone",
-"background_color":"#ffffff",
-"theme_color":"#ffffff"
-}
