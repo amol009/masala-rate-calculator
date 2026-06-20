@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rate Calculator PWA</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Wholesale Rate Calculator</h1>
+<div class="toolbar">
+<button onclick="addRow()">Add Item</button>
+<button onclick="exportCSV()">Export CSV</button>
+<button onclick="exportExcel()">Export Excel</button>
+<button id="themeBtn">🌙 Dark Mode</button>
+</div>
+
+<table id="tbl">
+<thead>
+<tr>
+<th>Item</th><th>Purchase</th><th>Transport</th><th>Packing</th><th>Other</th>
+<th>Total Cost</th><th>Profit %</th><th>Profit ₹</th><th>Selling Price</th><th>Delete</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
